@@ -22,8 +22,13 @@ get menu option selector
     [Arguments]  ${option}
     [Return]  //*[@id="sidebar-wrapper"]//*[text()="${option}"]
 
+get Login failed message selector
+    [Return]  //*[@class="lead text-danger"]
 
-# METHODS --------------------------------------------------------------------------------------------
+get Login failed message
+    [Return]  Login failed! Please ensure the username and password are valid.
+
+
 Go to Login page
     MainPage.Expand Menu if hidden
     ${login_option}=  MainPage.get menu option selector  Login

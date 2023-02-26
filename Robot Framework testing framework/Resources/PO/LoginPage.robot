@@ -11,7 +11,7 @@ get login input selector
 get password input selector
     [Return]  txt-password
 
-# METHODS --------------------------------------------------------------------------------
+
 Enter login
     [Arguments]  ${username}
     ${login_input}=  LoginPage.get login input selector

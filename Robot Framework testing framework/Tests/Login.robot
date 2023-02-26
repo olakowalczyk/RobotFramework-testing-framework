@@ -1,0 +1,64 @@
+*** Settings ***
+Documentation  This is an example of BDD testing in RobotFramework 
+Resource  ../Resources/Common.robot
+Suite Setup  Common.Open app
+Suite Teardown  Close browser
+
+*** Variables ***
+${USERNAME}=  John Doe
+${PASSWORD}=  ThisIsNotAPassword
+
+
+*** Test Cases ***
+Test-1: Invalid login to CURA selfcare service
+    [Tags]  test-2  critical
+    [Template]  Invalid credentials
+#   ${username}         ${password}
+    invalid_username    ${PASSWORD}
+    ${USERNAME}         invalid_pass
+    ${EMPTY}            ${PASSWORD}
+    ${USERNAME}         ${EMPTY}
+
+Test-2: Valid login to CURA selfcare service
+    [Tags]  test-2  critical
+    GIVEN Main page is available
+    WHEN Users goes to Login page
+    AND User enters login credentials
+    AND User clicks on Login button
+    THEN User is successfully logged in
+
+
+*** Keywords ***
+Invalid credentials
+    [Arguments]  ${username}  ${password} 
+    GIVEN Main page is available
+    WHEN Users goes to Login page
+    AND User enters login credentials  ${username}  ${password}
+    AND User clicks on Login button
+    THEN Expected validation message is displayed to user
+
+Main page is available
+    ${main_page}=  MainPage.get main page Make Appointment button selector
+    Wait Until Element Is Visible  ${main_page}  timeout=${DEFAULT_TIMEOUT}
+
+Users goes to Login page
+    MainPage.Go to Login page
+
+User enters login credentials
+    [Arguments]  ${username}=${USERNAME}  ${password}=${PASSWORD}
+    LoginPage.Enter login credentials  ${username}  ${password} 
+
+User clicks on Login button
+    LoginPage.Click on Login button
+
+User is successfully logged in
+    ${appointment_page}=  AppointmentPage.get Book Appointment button selector
+    Wait Until Element Is Visible  ${appointment_page}  timeout=${DEFAULT_TIMEOUT}
+
+Expected validation message is displayed to user
+    [Arguments]  ${expected_msg_alias}=Login failed
+    ${expected_msg}=  Run keyword  MainPage.get ${expected_msg_alias} message
+    ${error_msg}=  MainPage.get Login failed message selector
+    Element should be visible  ${error_msg}  msg=Error message is not displayed at all!
+    ${current_error_msg}=  Get text  ${error_msg}
+    Should be equal as strings  ${current_error_msg}  ${expected_msg}  msg=Validation message is not as expected!
