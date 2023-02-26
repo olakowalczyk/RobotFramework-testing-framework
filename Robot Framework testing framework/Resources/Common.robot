@@ -1,8 +1,9 @@
 *** Settings ***
+Library   SeleniumLibrary  run_on_failure=Nothing
+
 Resource  PO/MainPage.robot
 Resource  PO/LoginPage.robot
 Resource  PO/AppointmentPage.robot
-Library  SeleniumLibrary
 
 
 *** Variables ***
@@ -15,3 +16,6 @@ Open app
     Create Webdriver  Chrome
     Go to  ${WEB_APP_URL}
     Maximize browser window
+
+End test
+    Run keyword if test Failed  Capture Page Screenshot

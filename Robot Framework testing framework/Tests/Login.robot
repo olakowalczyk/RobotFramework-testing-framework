@@ -2,6 +2,7 @@
 Documentation  This is an example of BDD testing in RobotFramework 
 Resource  ../Resources/Common.robot
 Suite Setup  Common.Open app
+Test Teardown  Common.End test
 Suite Teardown  Close browser
 
 *** Variables ***
@@ -11,8 +12,8 @@ ${PASSWORD}=  ThisIsNotAPassword
 
 *** Test Cases ***
 Test-1: Invalid login to CURA selfcare service
-    [Tags]  test-2  critical
-    [Template]  Invalid credentials
+    [Tags]  test-1  critical
+    [Template]  Template - Invalid credentials
 #   ${username}         ${password}
     invalid_username    ${PASSWORD}
     ${USERNAME}         invalid_pass
@@ -29,7 +30,7 @@ Test-2: Valid login to CURA selfcare service
 
 
 *** Keywords ***
-Invalid credentials
+Template - Invalid credentials
     [Arguments]  ${username}  ${password} 
     GIVEN Main page is available
     WHEN Users goes to Login page
