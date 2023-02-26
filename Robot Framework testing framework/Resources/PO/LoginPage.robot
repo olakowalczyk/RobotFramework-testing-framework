@@ -30,6 +30,3 @@ Enter login credentials
 Click on Login button
     ${login_button}=  get Login button selector
     Click element  ${login_button}
-
-
-
