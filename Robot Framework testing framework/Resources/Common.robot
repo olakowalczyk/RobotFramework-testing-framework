@@ -1,5 +1,6 @@
 *** Settings ***
 Library   SeleniumLibrary  run_on_failure=Nothing
+Library   Collections
 
 Resource  PO/MainPage.robot
 Resource  PO/LoginPage.robot

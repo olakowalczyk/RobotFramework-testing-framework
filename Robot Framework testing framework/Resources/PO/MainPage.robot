@@ -18,9 +18,13 @@ get menu panel selector
     END
 
 get menu option selector
-    [Documentation]  Accepts ${option}: Home, Login.
+    [Documentation]  Accepts ${option}: Home, Login, Profile, Logout or ALL
     [Arguments]  ${option}
-    [Return]  //*[@id="sidebar-wrapper"]//*[text()="${option}"]
+    IF  "${option}"=="ALL"
+        RETURN  //*[@id="sidebar-wrapper"]//li[text()][not(@class)]
+    ELSE
+        RETURN  //*[@id="sidebar-wrapper"]//*[text()="${option}"]
+    END
 
 get Login failed message selector
     [Return]  //*[@class="lead text-danger"]
@@ -43,3 +47,12 @@ Expand Menu if hidden
     IF  ${is_menu_panel_hidden}==${FALSE}  Click element  ${menu_button}
     Wait until element is visible  ${menu_panel}
     
+Get available menu options
+    ${options_sel}=  MainPage.get menu option selector  ALL
+    ${elements}=  Get WebElements  ${options_sel}
+    ${current_options}=   Create list
+    FOR  ${el}  IN  @{elements}
+        ${option_name}=  Get text  ${el}
+        Append to list  ${current_options}  ${option_name}
+    END
+    [Return]  ${current_options}

@@ -27,6 +27,7 @@ Test-2: Valid login to CURA selfcare service
     AND User enters login credentials
     AND User clicks on Login button
     THEN User is successfully logged in
+    AND User has expected options available in the menu  Home  History  Profile  Logout
 
 
 *** Keywords ***
@@ -55,6 +56,12 @@ User clicks on Login button
 User is successfully logged in
     ${appointment_page}=  AppointmentPage.get Book Appointment button selector
     Wait Until Element Is Visible  ${appointment_page}  timeout=${DEFAULT_TIMEOUT}
+
+User has expected options available in the menu
+    [Arguments]  @{expected_options} 
+    MainPage.Expand Menu if hidden
+    ${current_options}=  MainPage.Get available menu options
+    Lists should be equal  ${expected_options}  ${expected_options}  msg=List of available options is not as expected!
 
 Expected validation message is displayed to user
     [Arguments]  ${expected_msg_alias}=Login failed
