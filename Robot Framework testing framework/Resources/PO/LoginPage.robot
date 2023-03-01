@@ -28,5 +28,5 @@ Enter login credentials
     LoginPage.Enter password  ${password}
 
 Click on Login button
-    ${login_button}=  get Login button selector
+    ${login_button}=  LoginPage.get Login button selector
     Click element  ${login_button}

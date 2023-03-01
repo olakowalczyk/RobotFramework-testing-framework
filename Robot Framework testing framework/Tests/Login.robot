@@ -5,10 +5,6 @@ Suite Setup  Common.Open app
 Test Teardown  Common.End test
 Suite Teardown  Close browser
 
-*** Variables ***
-${USERNAME}=  John Doe
-${PASSWORD}=  ThisIsNotAPassword
-
 
 *** Test Cases ***
 Test-1: Invalid login to CURA selfcare service
@@ -22,8 +18,8 @@ Test-1: Invalid login to CURA selfcare service
 
 Test-2: Valid login to CURA selfcare service
     [Tags]  test-2  critical
-    GIVEN Main page is available
-    WHEN Users goes to Login page
+    GIVEN User is on Appointment page
+    WHEN User goes to Login page
     AND User enters login credentials
     AND User clicks on Login button
     THEN User is successfully logged in
@@ -33,17 +29,17 @@ Test-2: Valid login to CURA selfcare service
 *** Keywords ***
 Template - Invalid credentials
     [Arguments]  ${username}  ${password} 
-    GIVEN Main page is available
-    WHEN Users goes to Login page
+    GIVEN User is on Appointment page
+    WHEN User goes to Login page
     AND User enters login credentials  ${username}  ${password}
     AND User clicks on Login button
     THEN Expected validation message is displayed to user
 
-Main page is available
+User is on Appointment page
     ${main_page}=  MainPage.get main page Make Appointment button selector
     Wait Until Element Is Visible  ${main_page}  timeout=${DEFAULT_TIMEOUT}
 
-Users goes to Login page
+User goes to Login page
     MainPage.Go to Login page
 
 User enters login credentials
@@ -61,7 +57,7 @@ User has expected options available in the menu
     [Arguments]  @{expected_options} 
     MainPage.Expand Menu if hidden
     ${current_options}=  MainPage.Get available menu options
-    Lists should be equal  ${expected_options}  ${expected_options}  msg=List of available options is not as expected!
+    Lists should be equal  ${current_options}  ${expected_options}  msg=List of available options is not as expected!
 
 Expected validation message is displayed to user
     [Arguments]  ${expected_msg_alias}=Login failed

@@ -49,10 +49,5 @@ Expand Menu if hidden
     
 Get available menu options
     ${options_sel}=  MainPage.get menu option selector  ALL
-    ${elements}=  Get WebElements  ${options_sel}
-    ${current_options}=   Create list
-    FOR  ${el}  IN  @{elements}
-        ${option_name}=  Get text  ${el}
-        Append to list  ${current_options}  ${option_name}
-    END
+    ${current_options}=  Common.Get texts list for given WebElements locator  ${options_sel}
     [Return]  ${current_options}
