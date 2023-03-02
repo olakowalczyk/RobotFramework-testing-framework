@@ -15,6 +15,8 @@ get Healthcare Program option selector
 get Visit Date input selector
     [Return]  //*[@name="visit_date"]
 
+get Comment input selector
+    [Return]  txt_comment
 
 Select Facility
     [Documentation]  Accepts: 
