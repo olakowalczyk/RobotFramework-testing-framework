@@ -15,6 +15,7 @@ Test-3: Make appointment
     ...  AND  LoginPage.Click on Login button
     GIVEN User is on Appointment page
     WHEN User selects Facility  Seoul CURA Healthcare Center
+    AND User checks Hospital readmission
     AND User selects Healthcare Program  Medicaid
     AND User selects current date as Visit Date
     AND Users enters a comment
@@ -31,6 +32,12 @@ User selects Facility
     [Arguments]  ${facility}
     AppointmentPage.Select Facility  ${facility}
     Set test variable  ${EXPECTED_FACILITY}  ${facility}
+
+User checks Hospital readmission
+    [Arguments]  ${readmission}=Yes
+    ${checkbox}=  AppointmentPage.get Apply for hospital readmission checkbox selector
+    Select checkbox  ${checkbox}
+    Set test variable  ${EXPECTED_READMISSION}  ${readmission}
 
 User selects Healthcare Program
     [Arguments]  ${program}
@@ -52,11 +59,12 @@ User clicks on Book Appointment button
     AppointmentPage.Book appointment
 
 Appointment confirmation is displayed
-    [Arguments]  ${facility}=${EXPECTED_FACILITY}  ${healthcare_program}=${EXPECTED_PROGRAM}  
-    ...  ${date}=${EXPECTED_DATE}  ${comment}=${EXPECTED_COMMENT}
+    [Arguments]  ${facility}=${EXPECTED_FACILITY}  ${readmission}=${EXPECTED_READMISSION}
+    ...  ${healthcare_program}=${EXPECTED_PROGRAM}  ${date}=${EXPECTED_DATE}  ${comment}=${EXPECTED_COMMENT}
     ${appointment_summary}=  AppointmentSummaryPage.Get appointment summary as a dict
     Log dictionary  ${appointment_summary}
     Should be equal as strings  ${appointment_summary}[Facility]  ${facility}
+    Should be equal as strings  ${appointment_summary}[Apply for hospital readmission]  ${readmission}
     Should be equal as strings  ${appointment_summary}[Healthcare Program]  ${healthcare_program}
     Should be equal as strings  ${appointment_summary}[Visit Date]  ${date}
     Should be equal as strings  ${appointment_summary}[Comment]  ${comment}

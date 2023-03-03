@@ -8,6 +8,9 @@ get Book Appointment button selector
 get Facility dropdown selector
     [Return]  //*[@id="combo_facility"]
 
+get Apply for hospital readmission checkbox selector
+    [Return]  chk_hospotal_readmission
+
 get Healthcare Program option selector
     [Arguments]  ${program_option}
     [Return]  //*[@value="${program_option}"]
